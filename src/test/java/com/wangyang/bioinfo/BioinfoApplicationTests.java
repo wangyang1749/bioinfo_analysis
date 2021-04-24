@@ -1,10 +1,13 @@
 package com.wangyang.bioinfo;
 
-import com.wangyang.bioinfo.pojo.DifferenceExpressGene;
-import com.wangyang.bioinfo.repository.TestRepository;
+import com.wangyang.bioinfo.pojo.DEG;
+import com.wangyang.bioinfo.repository.DEGRepository;
+import com.wangyang.bioinfo.service.IDEGService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -12,20 +15,24 @@ import java.util.List;
 class BioinfoApplicationTests {
 
 	@Autowired
-	TestRepository repository;
+    DEGRepository repository;
 
+	@Autowired
+	IDEGService degService;
 	@Test
 	void testAdd() {
-//		DifferenceExpressGene deg = DifferenceExpressGene.builder().name("南京路中学").build();
-//		System.out.println(deg.getName());
+//		DEG deg = DEG.builder().name("南京路中学").build();
 //		repository.insert(deg);
 	}
 	@Test
 	void testFind() {
-		List<DifferenceExpressGene> students = repository.findAll();
-		students.forEach(student -> {
-			System.out.println(student.getBaseMean());
-		});
+//		List<DEG> students = repository.findAll();
+		PageRequest pageRequest = PageRequest.of(2, 10);
+		Page<DEG> page = degService.page(pageRequest);
+//		System.out.println(page);
+//		students.forEach(student -> {
+//			System.out.println(student.getBaseMean());
+//		});
 	}
 
 }

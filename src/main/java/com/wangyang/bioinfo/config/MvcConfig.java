@@ -1,9 +1,13 @@
 package com.wangyang.bioinfo.config;
 
-import org.springframework.context.annotation.Bean;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -21,7 +25,7 @@ public class MvcConfig  extends WebMvcConfigurationSupport {
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("file:/home/wy/.bioinfo/")
-                .addResourceLocations("classpath:/static/");
+                .addResourceLocations("classpath:/static/html/");
         super.addResourceHandlers(registry);
     }
 
@@ -30,16 +34,40 @@ public class MvcConfig  extends WebMvcConfigurationSupport {
         registry.addInterceptor(new BioInterceptor()).addPathPatterns("/**");
     }
 
+    /**
+     * 将有ResponseBody注解的返回对象转换为json格式
+     * @param converters
+     */
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        super.configureMessageConverters(converters);
-        converters.add(responseBodyConverter());
+        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper objectMapper = new ObjectMapper();
+        /**
+         * 序列换成Json时,将所有的Long变成String
+         * 因为js中得数字类型不能包括所有的java Long值
+         */
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+
+        // 所有的double类型返回保留三位小数
+//        simpleModule.addSerializer(Double.class, CustomerDoubleSerialize.instance);
+//        simpleModule.addSerializer(Double.TYPE, CustomerDoubleSerialize.instance);
+
+        objectMapper.registerModule(simpleModule);
+        jackson2HttpMessageConverter.setObjectMapper(objectMapper);
+        converters.add(jackson2HttpMessageConverter);
+//        StringHttpMessageConverter converter = new StringHttpMessageConverter(
+//                Charset.forName("UTF-8"));
+//        converters.add(responseBodyConverter());
     }
 
-    @Bean
-    public HttpMessageConverter<String> responseBodyConverter() {
-        StringHttpMessageConverter converter = new StringHttpMessageConverter(
-                Charset.forName("UTF-8"));
-        return converter;
+    /**
+     * 解决Pageable pageable不能作为参数的问题
+     * @param argumentResolvers
+     */
+    @Override
+    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add( new PageableHandlerMethodArgumentResolver());
     }
 }

@@ -1,5 +1,6 @@
 package com.wangyang.bioinfo.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -18,13 +19,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @Builder
-@Document
-public class DifferenceExpressGene {
+@Document("DEG")
+public class DEG {
     @Id
-    String id;
-    String baseMean;
-    String log2FoldChange;
-    String lfcSE;
-    String pvalue;
-    String padj;
+    public String id;
+    public String baseMean;
+    public String log2FoldChange;
+    public String lfcSE;
+    public String stat;
+    public String pvalue;
+    public String padj;
 }
