@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -69,5 +70,15 @@ public class MvcConfig  extends WebMvcConfigurationSupport {
     @Override
     protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add( new PageableHandlerMethodArgumentResolver());
+    }
+
+
+    @Override
+    protected void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**").
+                    allowedOriginPatterns("*").
+                    allowedMethods("*"). //允许任何方法（post、get等）
+                    allowedHeaders("*"). //允许任何请求头
+                    allowCredentials(true); //带上cookie信息
     }
 }

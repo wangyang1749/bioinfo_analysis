@@ -11,6 +11,22 @@ const routes = [
     component: Home
   },
   {
+    path: '/TCGA',
+    name: 'TCGA',
+    component: () => import(/* webpackChunkName: "TCGA" */ '../views/TCGA.vue'),
+    children: [
+      {
+        path: 'count',
+        name: 'TCGA_count',
+        component: () => import(/* webpackChunkName: "TCGA_count" */ '../views/TCGA/count.vue'),
+      }, {
+        path: 'Test',
+        name: 'TCGA_test',
+        component: () => import(/* webpackChunkName: "Test" */ '../views/TCGA/Test.vue'),
+      }
+    ]
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

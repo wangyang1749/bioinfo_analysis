@@ -24,9 +24,9 @@ public class DEG {
     @Id
     public String id;
     public String baseMean;
-    public String log2FoldChange;
+    public String logFC;
     public String lfcSE;
     public String stat;
-    public String pvalue;
-    public String padj;
+    public String pValue;
+    public String pAdjustValue;
 }
