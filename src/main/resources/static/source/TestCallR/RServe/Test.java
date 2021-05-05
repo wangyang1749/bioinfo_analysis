@@ -2,7 +2,7 @@ import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 public class Test  {
     public static void main(String args[]) throws Exception{
-        System.out.println("1749748955");
+        //System.out.println("1749748955");
          //建立连接
         RConnection rc=new RConnection();
         //构建数据
@@ -14,7 +14,7 @@ public class Test  {
         //REXP. asXxx()返回相应类型的数据，如果结果类型不符会出错
         System.out.println(rexp.asInteger());
 
-        REXP xp = rc.parseAndEval("try(png(filename = 'test.png'))");
+        REXP xp = rc.parseAndEval("try(png(filename = 'test.png'));");
             
         // if (xp.inherits("try-error")) { // if the result is of the class try-error then there was a problem
         //     System.err.println("Can't open png graphics device:\n"+xp.asString());

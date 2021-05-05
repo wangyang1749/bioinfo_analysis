@@ -15,7 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.List;
 
 @SpringBootTest
-@TestPropertySource("file:/home/wy/.bioinfo/application.yml")
+//@TestPropertySource("file:/home/wy/.bioinfo/application.yml")
 
 class BioinfoApplicationTests {
 

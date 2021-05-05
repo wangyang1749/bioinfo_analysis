@@ -27,6 +27,26 @@ const routes = [
     ]
   },
   {
+    path: '/user',
+    name: 'User',
+    component: () => import(/* webpackChunkName: "TCGA" */ '../views/User.vue'),
+    children: [
+      {
+        path: 'user_list',
+        name: 'user_list',
+        component: () => import(/* webpackChunkName: "user_list" */ '../views/User/user_list.vue'),
+      },  {
+        path: 'role_list',
+        name: 'role_list',
+        component: () => import(/* webpackChunkName: "role_list" */ '../views/User/role_list.vue'),
+      },{
+        path: 'Test',
+        name: 'TCGA_test',
+        component: () => import(/* webpackChunkName: "Test" */ '../views/User/Test.vue'),
+      }
+    ]
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

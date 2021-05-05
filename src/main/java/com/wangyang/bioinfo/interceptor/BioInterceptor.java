@@ -1,4 +1,4 @@
-package com.wangyang.bioinfo.config;
+package com.wangyang.bioinfo.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 

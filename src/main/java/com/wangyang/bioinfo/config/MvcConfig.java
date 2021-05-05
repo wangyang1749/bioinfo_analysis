@@ -3,6 +3,10 @@ package com.wangyang.bioinfo.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.wangyang.bioinfo.interceptor.BioInterceptor;
+import com.wangyang.bioinfo.interceptor.SpringWebSocketHandlerInterceptor;
+import com.wangyang.bioinfo.util.SpringWebSocketHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -12,8 +16,11 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -21,7 +28,8 @@ import java.util.List;
  * @date 2021/4/24
  */
 @Configuration
-public class MvcConfig  extends WebMvcConfigurationSupport {
+@EnableWebSocket
+public class MvcConfig  extends WebMvcConfigurationSupport implements WebSocketConfigurer {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
@@ -29,6 +37,7 @@ public class MvcConfig  extends WebMvcConfigurationSupport {
                 .addResourceLocations("classpath:/static/html/");
         super.addResourceHandlers(registry);
     }
+
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
@@ -81,4 +90,19 @@ public class MvcConfig  extends WebMvcConfigurationSupport {
                     allowedHeaders("*"). //允许任何请求头
                     allowCredentials(true); //带上cookie信息
     }
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        //springwebsocket 4.1.5版本前默认支持跨域访问，之后的版本默认不支持跨域，需要设置.setAllowedOrigins("*")
+        registry.addHandler(webSocketHandler(),"/websocket/socketServer.do").setAllowedOrigins("*")
+                .addInterceptors(new SpringWebSocketHandlerInterceptor());
+//
+//        registry.addHandler(webSocketHandler(), "/sockjs/socketServer.do")
+//                .addInterceptors(new SpringWebSocketHandlerInterceptor()).withSockJS();
+    }
+
+    @Bean
+    public TextWebSocketHandler webSocketHandler() {
+        return new SpringWebSocketHandler();
+    }
+
 }

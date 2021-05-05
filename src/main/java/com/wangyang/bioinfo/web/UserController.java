@@ -1,10 +1,9 @@
 package com.wangyang.bioinfo.web;
 
-import com.wangyang.bioinfo.pojo.DEG;
-import com.wangyang.bioinfo.service.IDEGService;
+import com.wangyang.bioinfo.pojo.User;
+import com.wangyang.bioinfo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,21 +14,17 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * @author wangyang
- * @date 2021/4/24
+ * @date 2021/5/5
  */
 @RestController
-@RequestMapping("/api/deg")
-public class DEGController {
-
+@RequestMapping("/api/user")
+public class UserController {
     @Autowired
-    IDEGService degService;
-
+    IUserService userService;
 
 
     @GetMapping
-    public Page<DEG> page(@PageableDefault(sort = {"id"},direction = DESC)Pageable pageable){
-        Page<DEG> page = degService.page(pageable);
-
-        return page;
+    public Page<User> page(@PageableDefault(sort = {"id"},direction = DESC) Pageable pageable){
+        return userService.pageUser(pageable);
     }
 }

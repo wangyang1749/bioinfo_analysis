@@ -11,6 +11,7 @@
         <a-menu-item key="1"><router-link to="/">Home</router-link> </a-menu-item>
         <a-menu-item key="2"><router-link to="/TCGA">TCGA</router-link> </a-menu-item>
         <a-menu-item key="3"><router-link to="/About">About</router-link> </a-menu-item>
+         <a-menu-item key="4"><router-link to="/User">User</router-link> </a-menu-item>
       </a-menu>
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">

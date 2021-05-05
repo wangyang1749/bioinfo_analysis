@@ -3,6 +3,7 @@ package com.wangyang.bioinfo.service.impl;
 import com.github.rcaller.graphics.SkyTheme;
 import com.github.rcaller.rstuff.RCaller;
 import com.github.rcaller.rstuff.RCode;
+import com.github.rcaller.util.Globals;
 import com.wangyang.bioinfo.pojo.dto.RBasicGraphics;
 import com.wangyang.bioinfo.service.IREngineCall;
 import org.springframework.stereotype.Service;
@@ -18,23 +19,23 @@ import java.io.IOException;
 public class REngineCallImpl implements IREngineCall {
 
     @Override
-    public String basicGraphics(String source,String data) {
+    public File basicGraphics(String source,String data) {
         try {
             RCaller caller = RCaller.create();
+
             RCode code = RCode.create();
+            code.R_source(source);
             caller.setGraphicsTheme(new SkyTheme());
             File plt = code.startPlot();
-            code.addRCode("source('"+source+"')");
-            code.addRCode("data <- read.csv('"+data+"')");
+            code.addRCode("");
             code.endPlot();
             caller.setRCode(code);
-            caller.runAndReturnResult("FUN(data)");
-
+            caller.runOnly();
             System.out.println(plt.getPath());
-            return plt.getPath();
+            return plt;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return null;
     }
 }

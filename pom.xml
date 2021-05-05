@@ -25,10 +25,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-data-jpa</artifactId>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -44,6 +40,31 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.13</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>fluent-hc</artifactId>
+			<version>4.5.13</version>
+		</dependency>
+
+<!--		R-->
 <!--		https://github.com/s-u/REngine-->
 		<dependency>
 			<groupId>org.rosuda.REngine</groupId>
@@ -63,8 +84,17 @@
 			<version>3.0.2</version>
 			<classifier>jar-with-dependencies</classifier>
 		</dependency>
-	</dependencies>
 
+
+
+	</dependencies>
+<!--	<repositories>-->
+<!--		<repository>-->
+<!--			<id>bedatadriven</id>-->
+<!--			<name>bedatadriven public repo</name>-->
+<!--			<url>https://nexus.bedatadriven.com/content/groups/public/</url>-->
+<!--		</repository>-->
+<!--	</repositories>-->
 	<build>
 		<plugins>
 			<plugin>

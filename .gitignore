@@ -58,3 +58,5 @@ pnpm-debug.log*
 *.sw?
 vue-element-admin/
 package-lock.json
+.RData
+RServe-lib/
