@@ -1,17 +1,17 @@
 package com.wangyang.bioinfo;
 
+
 import com.wangyang.bioinfo.pojo.Role;
 import com.wangyang.bioinfo.pojo.User;
-import com.wangyang.bioinfo.pojo.dto.UserDto;
 import com.wangyang.bioinfo.service.IRoleService;
 import com.wangyang.bioinfo.service.IUserService;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.AnnotationUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.util.Assert;
+
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ import java.util.Set;
  * @date 2021/5/5
  */
 @SpringBootTest
-//@Transactional
+@Transactional
 public class TestUser {
 
     @Autowired
@@ -80,14 +80,14 @@ public class TestUser {
         user_g = userService.addUser(user);
     };
 
-    @Test
+  //  @Test
     public void testFind(){
 //        testAdd();
 //        int id = user_g.getId();
         User user = userService.findUserById(20);
         System.out.println(user.getRoles());
     }
-    @Test
+    //@Test
     public void testDel(){
         User user = userService.delUser(20);
         System.out.println(user);
