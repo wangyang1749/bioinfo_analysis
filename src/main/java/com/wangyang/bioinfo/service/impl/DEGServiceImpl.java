@@ -16,11 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class DEGServiceImpl implements IDEGService {
 
-    @Autowired
-    DEGRepository degRepository;
+
     @Override
     public Page<DEG> page(Pageable pageable) {
 
-        return degRepository.findAll(pageable);
+        return null;
     }
 }

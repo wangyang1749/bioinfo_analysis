@@ -1,9 +1,9 @@
 import service from '@/utils/service'
 const baseUrl = '/api/user'
 
-const RoleApi = {}
+const UserApi = {}
 
-RoleApi.page = (params) =>{
+UserApi.page = (params) =>{
     return service({
         url: `${baseUrl}`,
         params: params,
@@ -11,6 +11,12 @@ RoleApi.page = (params) =>{
     })
 }
 
+UserApi.login = (data)=>{
+    return service({
+        url:`${baseUrl}/login`,
+        data:data,
+        method: 'post'
+    })
+}
 
-
-export default RoleApi
+export default UserApi

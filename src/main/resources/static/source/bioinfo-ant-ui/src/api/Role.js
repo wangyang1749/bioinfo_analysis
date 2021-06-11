@@ -1,9 +1,10 @@
+
 import service from '@/utils/service'
 const baseUrl = '/api/role'
 
-const UserApi = {}
+const RoleApi = {}
 
-UserApi.page = (params) =>{
+RoleApi.page = (params) =>{
     return service({
         url: `${baseUrl}`,
         params: params,
@@ -13,4 +14,4 @@ UserApi.page = (params) =>{
 
 
 
-export default UserApi
+export default RoleApi

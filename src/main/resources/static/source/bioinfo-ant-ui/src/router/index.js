@@ -1,14 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+//import Home from '../views/Home.vue'
+import BasicLayout from '@/layout/BasicLayout.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "Login" */ '../views/Login.vue'),
+  },
+  {
     path: '/',
     name: 'Home',
-    component: Home
+    component: BasicLayout
   },
   {
     path: '/TCGA',
@@ -56,10 +62,29 @@ const routes = [
   }
 ]
 
+
+
 const router = new VueRouter({
   // mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+  var token = localStorage.getItem("jwtToken");
+
+  if(token == null && to.name != 'Login'){
+    next('/login')
+    return      
+  } 
+  // 已登录状态；当路由到 UserLogIn 时，跳转至 Home
+  if (to.name === 'Login') {
+    if (token != null) {
+      next('/')
+      return
+    }
+  }
+  next() // 必须使用 next ,执行效果依赖 next 方法的调用参数
 })
 
 export default router

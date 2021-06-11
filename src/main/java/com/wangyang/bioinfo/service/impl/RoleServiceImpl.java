@@ -1,9 +1,11 @@
 package com.wangyang.bioinfo.service.impl;
 
 import com.wangyang.bioinfo.pojo.Role;
+import com.wangyang.bioinfo.pojo.dto.RoleDto;
 import com.wangyang.bioinfo.repository.RoleRepository;
 import com.wangyang.bioinfo.service.IRoleService;
 import com.wangyang.bioinfo.util.BioinfoException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +45,16 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public Page<Role> pageRole(Pageable pageable) {
-        return roleRepository.findAll(pageable);
+    public Page<RoleDto> pageRole(Pageable pageable) {
+        return roleRepository.findAll(pageable).map(role -> {
+            RoleDto roleDto = new RoleDto();
+            BeanUtils.copyProperties(role,roleDto);
+            return roleDto;
+        });
+    }
+
+    @Override
+    public Role updateRole(Role role) {
+        return null;
     }
 }

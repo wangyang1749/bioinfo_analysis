@@ -2,6 +2,7 @@ package com.wangyang.bioinfo;
 
 import com.wangyang.bioinfo.pojo.Role;
 import com.wangyang.bioinfo.pojo.User;
+import com.wangyang.bioinfo.pojo.dto.UserDto;
 import com.wangyang.bioinfo.service.IRoleService;
 import com.wangyang.bioinfo.service.IUserService;
 import org.junit.jupiter.api.Test;
@@ -34,12 +35,17 @@ public class TestUser {
     @Test
     public void testAdd(){
         User user = new User();
-        user.setUsername("zhangSan");
+        user.setUsername("wangyang");
         user.setEmail("1749748955@qq.com");
         user.setGender(0);
         user.setPassword("123456");
         user_g = userService.addUser(user);
     };
+
+    @Test
+    public void testFindByUsername(){
+        System.out.println(userService.findUserByUsername("zhangSan"));
+    }
     @Test
     public void testAddUser_Role(){
         User user = new User();

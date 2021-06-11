@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author wangyang
@@ -17,9 +17,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *  $ pvalue        : num  2.17e-01 4.16e-35 5.77e-05 4.61e-11 7.43e-13 ...
  *  $ padj          : num  2.70e-01 1.10e-33 1.45e-04 2.33e-10 4.38e-12 ...
  */
-@Data
-@Builder
-@Document("DEG")
+//@Data
+//@Builder
+//@Document("DEG")
 public class DEG {
     @Id
     public String id;

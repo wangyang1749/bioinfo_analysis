@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Golbal from '@/api/global_variable.js'
 // import Vue from 'vue'
-// import router from '@/router'
+import router from '@/router'
 import { message } from 'ant-design-vue'
 
 const service = axios.create({
@@ -17,7 +17,7 @@ message.config({
     maxCount: 3,
 });
 
-/*
+
 service.interceptors.request.use(function (config) {
     // let user = JSON.parse(window.sessionStorage.getItem('access-user'));
     // if (user) {
@@ -44,6 +44,7 @@ service.interceptors.request.use(function (config) {
 
 service.interceptors.response.use(
     response => {
+
         return response;
     }, error => {
         const response = error.response
@@ -54,7 +55,7 @@ service.interceptors.response.use(
                 localStorage.removeItem("user");
                 router.push("/login")
                 message.error(data.message);
-            } else {
+            }else {
                 if (data.message) {
                     message.error(data.message);
                 } else {
@@ -64,10 +65,11 @@ service.interceptors.response.use(
             }
             //console.log(data)
         }
+       
         return Promise.reject(error)
     }
 )
 
-*/
+
 
 export default service

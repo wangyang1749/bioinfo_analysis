@@ -2,6 +2,7 @@ package com.wangyang.bioinfo;
 
 import com.wangyang.bioinfo.pojo.Role;
 import com.wangyang.bioinfo.pojo.User;
+import com.wangyang.bioinfo.pojo.dto.RoleDto;
 import com.wangyang.bioinfo.service.IRoleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class TestRole {
 
     @Test
     public void testPage(){
-        Page<Role> roles = roleService.pageRole(PageRequest.of(0, 5));
+        Page<RoleDto> roles = roleService.pageRole(PageRequest.of(0, 5));
         System.out.println(roles);
     }
 }

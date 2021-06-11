@@ -1,7 +1,7 @@
 spring:
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/bioinfo
+#  data:
+#    mongodb:
+#      uri: mongodb://localhost:27017/bioinfo
   http:
     encoding:
       charset=UTF-8:
@@ -18,3 +18,6 @@ spring:
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
+
+jwt:
+  base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=

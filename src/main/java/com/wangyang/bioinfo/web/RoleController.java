@@ -1,6 +1,7 @@
 package com.wangyang.bioinfo.web;
 
 import com.wangyang.bioinfo.pojo.Role;
+import com.wangyang.bioinfo.pojo.dto.RoleDto;
 import com.wangyang.bioinfo.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class RoleController {
     @Autowired
     IRoleService roleService;
     @GetMapping
-    public Page<Role> page(@PageableDefault(sort = {"id"},direction = DESC) Pageable pageable){
+    public Page<RoleDto> page(@PageableDefault(sort = {"id"},direction = DESC) Pageable pageable){
         return roleService.pageRole(pageable);
     }
 }
