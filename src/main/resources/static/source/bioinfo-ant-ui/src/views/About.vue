@@ -2,7 +2,7 @@
   <div class="about">
     <h1>This is an about page</h1>
     <a href="http://localhost:8080/websocket/login?username=12345">login</a>
-    <a v-on:click="websocketsend">fagr w</a>
+    <a v-on:click="websocketsend">ssssss w</a>
   </div>
 </template>
 <script>

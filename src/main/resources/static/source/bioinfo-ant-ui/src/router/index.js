@@ -13,25 +13,86 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
-    component: BasicLayout
-  },
-  {
-    path: '/TCGA',
-    name: 'TCGA',
-    component: () => import(/* webpackChunkName: "TCGA" */ '../views/TCGA.vue'),
+    name: 'Index',
+    component: BasicLayout,
+    redirect: "/Home",
     children: [
       {
-        path: 'count',
-        name: 'TCGA_count',
-        component: () => import(/* webpackChunkName: "TCGA_count" */ '../views/TCGA/count.vue'),
-      }, {
-        path: 'Test',
-        name: 'TCGA_test',
-        component: () => import(/* webpackChunkName: "Test" */ '../views/TCGA/Test.vue'),
-      }
+        path: '/Home',
+        name: 'Home',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue'),
+        meta: { title: '主页', icon: 'home' },
+
+      },
+      {
+        path: '/project',
+        name: 'Project',
+        meta: { title: 'Project', icon: 'dashboard' },
+
+        component: () => import(/* webpackChunkName: "Project" */ '../layout/Second.vue'),
+        redirect: "/project/list",
+        children: [
+          {
+            path: "/component",
+            meta: { title: '项目管理', icon: 'dashboard' },
+            component: () => import(/* webpackChunkName: "TCGA" */ '../layout/Empty.vue'),
+            children: [
+              {
+                path: '/project/list',
+                name: 'Project_list',
+                meta: { title: '项目列表', icon: 'dashboard', parentPath: "/project" ,display:true },
+                component: () => import(/* webpackChunkName: "Project_list" */ '../views/project/list.vue'),
+              }, {
+                path: '/project/add',
+                name: 'Project_add',
+                meta: { title: '添加项目', icon: 'dashboard', parentPath: "/project" ,display:true },
+                component: () => import(/* webpackChunkName: "Project_add" */ '../views/project/add.vue'),
+              },
+              {
+                path: '/project/update',
+                name: 'Project_update',
+                meta: { title: '更新项目', icon: 'dashboard', parentPath: "/project"},
+                component: () => import(/* webpackChunkName: "Project_update" */ '../views/project/update.vue'),
+              }
+            ]
+          }
+        ]
+      },
+      // {
+      //   path: '/TCGA',
+      //   name: 'TCGA',
+      //   meta: { title: 'TCGA', icon: 'dashboard' },
+      //   component: () => import(/* webpackChunkName: "Second" */ '../layout/Second.vue'),
+      //   redirect: "/TCGA/Test",
+      //   children: [
+      //     {
+      //       path: "/component",
+      //       meta: { title: 'TCGA', icon: 'dashboard' },
+      //       component: () => import(/* webpackChunkName: "TCGA" */ '../layout/Empty.vue'),
+      //       children: [
+      //         {
+      //           path: '/TCGA/count',
+      //           name: 'TCGA_count',
+      //           component: () => import(/* webpackChunkName: "TCGA_count" */ '../views/TCGA/count.vue'),
+      //           meta: { title: 'count', icon: 'dashboard', parentPath: "/TCGA" },
+      //         }, {
+      //           path: '/TCGA/Test',
+      //           name: 'TCGA_test',
+      //           component: () => import(/* webpackChunkName: "Test" */ '../views/TCGA/Test.vue'),
+      //           meta: { title: 'Test', icon: 'dashboard', parentPath: "/TCGA" },
+      //         }
+      //       ]
+
+      //     },
+
+      //   ]
+      // },
     ]
   },
+
   {
     path: '/user',
     name: 'User',
@@ -41,25 +102,18 @@ const routes = [
         path: 'user_list',
         name: 'user_list',
         component: () => import(/* webpackChunkName: "user_list" */ '../views/User/user_list.vue'),
-      },  {
+      }, {
         path: 'role_list',
         name: 'role_list',
         component: () => import(/* webpackChunkName: "role_list" */ '../views/User/role_list.vue'),
-      },{
+      }, {
         path: 'Test',
         name: 'TCGA_test',
         component: () => import(/* webpackChunkName: "Test" */ '../views/User/Test.vue'),
       }
     ]
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+
 ]
 
 
@@ -73,10 +127,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   var token = localStorage.getItem("jwtToken");
 
-  if(token == null && to.name != 'Login'){
+  if (token == null && to.name != 'Login') {
     next('/login')
-    return      
-  } 
+    return
+  }
   // 已登录状态；当路由到 UserLogIn 时，跳转至 Home
   if (to.name === 'Login') {
     if (token != null) {
