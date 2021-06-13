@@ -1,5 +1,6 @@
 package com.wangyang.bioinfo.config;
 
+import com.wangyang.bioinfo.util.AuthorizationException;
 import com.wangyang.bioinfo.util.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,15 @@ import java.util.Map;
 @Slf4j
 @RestControllerAdvice({"com.wangyang"})
 public class CommonException {
+
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public BaseResponse authorizationException(AuthorizationException e) {
+        BaseResponse<Map<String, String>> baseResponse = handleBaseException(e);
+        baseResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        return baseResponse;
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BaseResponse cmsException(Exception e) {
@@ -24,6 +34,7 @@ public class CommonException {
         baseResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         return baseResponse;
     }
+
     private <T> BaseResponse<T> handleBaseException(Throwable t) {
         Assert.notNull(t, "Throwable must not be null");
 

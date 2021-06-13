@@ -1,4 +1,4 @@
-package com.wangyang.bioinfo.pojo;
+package com.wangyang.bioinfo.pojo.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

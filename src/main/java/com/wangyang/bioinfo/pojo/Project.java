@@ -1,14 +1,11 @@
 package com.wangyang.bioinfo.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.wangyang.bioinfo.pojo.enums.ProjectStatus;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author wangyang
@@ -31,6 +28,8 @@ public class Project extends BaseEntity{
     private Date deadline;
 
     ProjectStatus projectStatus;
+
+    private Integer userId;
 
 //    @ManyToMany(cascade = {CascadeType.MERGE},fetch = FetchType.LAZY)
 //    @JoinTable(name = "t_user_project",joinColumns = @JoinColumn(name = "projectId"),

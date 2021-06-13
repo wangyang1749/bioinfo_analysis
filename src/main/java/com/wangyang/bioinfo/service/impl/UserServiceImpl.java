@@ -18,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,15 +40,22 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User findUserById(int id) {
         Optional<User> userOptional = userRepository.findById(id);
-        return  userOptional.isPresent()?userOptional.get():null;
+        if(!userOptional.isPresent()){
+            throw new BioinfoException("需要操作的用户不存在!!");
+        }
+        User user = userOptional.get();
+        user.setPassword("");
+        return  user;
+    }
+
+    @Override
+    public List<User> findAllById(Collection<Integer> ids) {
+        return userRepository.findAllById(ids);
     }
 
     @Override
     public User delUser(int id) {
         User user = findUserById(id);
-        if(user==null){
-            throw new BioinfoException("需要删除的用户不存在!!");
-        }
         userRepository.delete(user);
         return user;
     }

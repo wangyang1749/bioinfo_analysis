@@ -1,15 +1,10 @@
 package com.wangyang.bioinfo.pojo.param;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.wangyang.bioinfo.config.JsonDateDeserializer;
-import com.wangyang.bioinfo.pojo.ProjectStatus;
+import com.wangyang.bioinfo.pojo.enums.ProjectStatus;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**

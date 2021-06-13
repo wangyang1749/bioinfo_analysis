@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.wangyang.bioinfo.interceptor.BioInterceptor;
 import com.wangyang.bioinfo.interceptor.SpringWebSocketHandlerInterceptor;
 import com.wangyang.bioinfo.util.SpringWebSocketHandler;
+import com.wangyang.bioinfo.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,10 +45,22 @@ public class MvcConfig  extends WebMvcConfigurationSupport implements WebSocketC
         super.addResourceHandlers(registry);
     }
 
-
+    /**
+     * 解决拦截器在spring context创建之前完成加载
+     * @return
+     */
+    @Bean
+    public BioInterceptor bioInterceptor(){
+        return new BioInterceptor();
+    }
+    /**
+     * 配置拦截器
+     * @param registry
+     */
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new BioInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(bioInterceptor()).addPathPatterns("/**")
+                .excludePathPatterns("/api/user/login", "/logout/**", "/loginPage/**", "/error/**");
     }
 
     /**
