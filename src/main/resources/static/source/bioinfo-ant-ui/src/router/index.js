@@ -30,14 +30,14 @@ const routes = [
       {
         path: '/project',
         name: 'Project',
-        meta: { title: 'Project', icon: 'dashboard' },
+        meta: { title: '项目', icon: 'dashboard' },
 
         component: () => import(/* webpackChunkName: "Project" */ '../layout/Second.vue'),
         redirect: "/project/list",
         children: [
           {
             path: "/component",
-            meta: { title: '项目管理', icon: 'dashboard' },
+            meta: { title: '所有项目', icon: 'dashboard' },
             component: () => import(/* webpackChunkName: "TCGA" */ '../layout/Empty.vue'),
             children: [
               {
@@ -56,6 +56,11 @@ const routes = [
                 name: 'Project_update',
                 meta: { title: '更新项目', icon: 'dashboard', parentPath: "/project"},
                 component: () => import(/* webpackChunkName: "Project_update" */ '../views/project/update.vue'),
+              },{
+                path: '/project/detial',
+                name: 'Project_detial',
+                meta: { title: '项目细节', icon: 'dashboard', parentPath: "/project"},
+                component: () => import(/* webpackChunkName: "Project_detial" */ '../views/project/detial.vue'),
               }
             ]
           }

@@ -1,15 +1,19 @@
 package com.wangyang.bioinfo.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.wangyang.bioinfo.interceptor.BioInterceptor;
 import com.wangyang.bioinfo.interceptor.SpringWebSocketHandlerInterceptor;
 import com.wangyang.bioinfo.util.SpringWebSocketHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -21,6 +25,8 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -64,12 +70,37 @@ public class MvcConfig  extends WebMvcConfigurationSupport implements WebSocketC
 //        simpleModule.addSerializer(Double.class, CustomerDoubleSerialize.instance);
 //        simpleModule.addSerializer(Double.TYPE, CustomerDoubleSerialize.instance);
 
+        /**
+         * 日期格式化
+         * yyyy-MM-dd HH:mm:ss
+         * https://blog.csdn.net/kylin_tam/article/details/106683981
+         */
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        /**
+         * 输入时间反序列化
+         */
+        JavaTimeModule javaTimeModule=new JavaTimeModule();
+        javaTimeModule.addDeserializer(Date.class,jsonDateDeserializer());
+        objectMapper.registerModule(javaTimeModule);
+
         objectMapper.registerModule(simpleModule);
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
+
         converters.add(jackson2HttpMessageConverter);
 //        StringHttpMessageConverter converter = new StringHttpMessageConverter(
 //                Charset.forName("UTF-8"));
 //        converters.add(responseBodyConverter());
+    }
+
+    /**
+     * 时间字符串参数转化
+     * https://blog.csdn.net/weixin_34290096/article/details/92334617
+     * @return
+     */
+    @Bean
+    public JsonDateDeserializer jsonDateDeserializer() {
+        return new JsonDateDeserializer();
     }
 
     /**

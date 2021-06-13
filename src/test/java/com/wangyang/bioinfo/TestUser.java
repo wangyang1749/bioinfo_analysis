@@ -1,6 +1,7 @@
 package com.wangyang.bioinfo;
 
 
+import com.wangyang.bioinfo.pojo.ProjectStatus;
 import com.wangyang.bioinfo.pojo.Role;
 import com.wangyang.bioinfo.pojo.User;
 import com.wangyang.bioinfo.service.IRoleService;
@@ -35,6 +36,16 @@ public class TestUser {
     IRoleService roleService;
 
     User user_g;
+
+    @Test
+    public void testEnum(){
+        ProjectStatus[] values = ProjectStatus.values();
+        for (ProjectStatus e : ProjectStatus.values()) {
+            System.out.println(e.toString());
+        }
+        System.out.println();
+    }
+
     @Test
     public void testAdd(){
         User user = new User();

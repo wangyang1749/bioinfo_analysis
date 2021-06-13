@@ -16,25 +16,25 @@
         "
       />
     </a-form-model-item>
-    <!-- <a-form-model-item label="项目名称" prop="region">
-      <a-select v-model="form.region" placeholder="please select your zone">
-        <a-select-option value="shanghai">
-          Zone one
-        </a-select-option>
-        <a-select-option value="beijing">
-          Zone two
-        </a-select-option>
+    <a-form-model-item label="项目状态" prop="projectStatus">
+      <a-select v-model="form.projectStatus" placeholder="please select your zone">
+        <a-select-option
+          :value="item.key"
+          v-for="item in projectStatuses"
+          :key="item.key"
+        >{{item.value}}</a-select-option>
       </a-select>
-    </a-form-model-item>-->
-    <!-- <a-form-model-item label="项目截止日期" required prop="date1">
+    </a-form-model-item>
+
+    <a-form-model-item label="项目截止日期" required prop="deadline">
       <a-date-picker
-        v-model="form.date1"
+        v-model="form.deadline"
         show-time
         type="date"
         placeholder="Pick a date"
         style="width: 100%;"
       />
-    </a-form-model-item>-->
+    </a-form-model-item>
 
     <!-- <a-form-model-item label="Instant delivery" prop="delivery">
       <a-switch v-model="form.delivery" />
@@ -73,6 +73,7 @@
 </template>
 <script>
 import ProjectAPi from "@/api/Project.js";
+import ENUMApi from "@/api/ENUM.js";
 export default {
   data() {
     return {
@@ -80,10 +81,13 @@ export default {
       wrapperCol: { span: 14 },
       other: "",
       projectId: null,
+      value: null,
+      projectStatuses:[],
       form: {
         name: "",
         // region: undefined,
-        // date1: undefined,
+        deadline: undefined,
+        projectStatus: null,
         // delivery: false,
         // type: [],
         // resource: '',
@@ -94,8 +98,8 @@ export default {
           { required: true, message: "请输入项目名称", trigger: "blur" }
           //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
         ],
-        // region: [{ required: true, message: 'Please select Activity zone', trigger: 'change' }],
-        date1: [
+        projectStatus: [{ required: true, message: 'Please select Activity zone', trigger: 'change' }],
+        deadline: [
           { required: true, message: "请选择一个截止日期", trigger: "change" }
         ],
         // type: [
@@ -109,9 +113,18 @@ export default {
         // resource: [
         //   { required: true, message: 'Please select activity resource', trigger: 'change' },
         // ],
-        description: [{ required: true, message: "请输入项目描述", trigger: "blur" }]
+        description: [
+          { required: true, message: "请输入项目描述", trigger: "blur" }
+        ]
       }
     };
+  },
+  mounted() {
+    ENUMApi.projectStatuses().then(resp => {
+       var projectStatus = resp.data.data.find(x=>(x.value==this.form.projectStatus))
+        resp.data.data.projectStatus=projectStatus
+       this.projectStatuses = resp.data.data;
+    });
   },
   beforeRouteEnter(to, from, next) {
     // Get post id from query
@@ -125,26 +138,23 @@ export default {
           console.log(project);
           vm.form = project;
 
-          // console.log(article);
-          // vm.queryParam.originalContent = article.originalContent; // 输入的markdown
-          // vm.queryParam.haveHtml= article.haveHtml
-          // vm.queryParam.templateName = article.templateName;
-          // vm.queryParam.title = article.title;
-          // vm.queryParam.viewName = article.viewName;
-          // vm.queryParam.summary = article.summary;
-          // vm.queryParam.status = article.status;
-          // vm.queryParam.picPath = article.picPath;
-          //     tagIds: []
-          // categoryIds: []
-          vm.isUpdate = true;
         });
       }
     });
   },
   methods: {
     onSubmit() {
+
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          var deadline = this.form.deadline
+          // console.log()
+          // console.log(deadline.substr(deadline.length-1,deadline.length))
+          if(deadline._d){
+            this.form.deadline = this.form.deadline.format("YYYY-MM-DD HH:mm:ss");
+          }
+
+         
           ProjectAPi.update(this.projectId, this.form).then(resp => {
             this.$notification["success"]({
               message: "项目更新成功!" + resp.data.message

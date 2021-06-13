@@ -22,10 +22,15 @@ public class Project extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @Column(columnDefinition = "longtext not null")
     private String description;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="GMT+8")
+    private String jupyterUrl;
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="GMT+8")
+    @Column(name = "t_deadline")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deadline;
-    
+
+    ProjectStatus projectStatus;
 
 //    @ManyToMany(cascade = {CascadeType.MERGE},fetch = FetchType.LAZY)
 //    @JoinTable(name = "t_user_project",joinColumns = @JoinColumn(name = "projectId"),

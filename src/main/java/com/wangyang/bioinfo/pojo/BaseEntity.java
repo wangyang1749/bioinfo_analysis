@@ -18,11 +18,11 @@ import java.util.Date;
 public class BaseEntity {
     @Column(name = "create_time")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="GMT+8")
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="GMT+8")
     private Date createDate=new Date();
 
     @Column(name = "update_time")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="GMT+8")
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="GMT+8")
     private Date updateDate=new Date();
 }

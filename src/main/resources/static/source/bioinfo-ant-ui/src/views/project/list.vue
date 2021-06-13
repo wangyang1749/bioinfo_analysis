@@ -8,11 +8,16 @@
       :loading="loading"
       @change="handleTableChange"
     >
+      <div slot="name" slot-scope="name,record">
+        <a href="javascript:;" @click="detial(record.id)">{{name}}</a>
+      </div>
       <span slot="action" slot-scope="text, record">
         <!-- <a href="javascript:;">Invite 一 {{record.name}}</a>
         <a-divider type="vertical" />-->
         <!-- <a href="javascript:;" @click="generateHtml(record.id)">生成HTML</a> -->
         <!-- <a-divider type="vertical" /> -->
+        <!-- <a href="javascript:;" @click="updateProject(record.id)">编辑</a> -->
+        <a-divider type="vertical" />
         <a href="javascript:;" @click="updateProject(record.id)">编辑</a>
         <a-divider type="vertical" />
         <!-- <a href="javascript:;" @click="delProject(record)">删除</a> -->
@@ -47,15 +52,26 @@
 <script>
 import ProjectAPi from "@/api/Project.js";
 const columns = [
+  // {
+  //   title: "id",
+  //   dataIndex: "id"
+  // },
   {
-    title: "id",
-    dataIndex: "id"
+    title: "项目名称",
+    dataIndex: "name",
+    scopedSlots: { customRender: "name" }
   },
   {
-    title: "name",
-    dataIndex: "name"
-  },{
-    title: "deadline",
+    title: "项目状态",
+    dataIndex: "projectStatus"
+  },
+
+  {
+    title: "创建日期",
+    dataIndex: "createDate"
+  },
+  {
+    title: "截止日期",
     dataIndex: "deadline"
   },
   {
@@ -85,7 +101,7 @@ export default {
       },
       data: [],
       loading: false,
-      columns,
+      columns
     };
   },
   mounted() {
@@ -113,7 +129,13 @@ export default {
     updateProject(id) {
       this.$router.push({
         name: "Project_update",
-        query: { projectId: id}
+        query: { projectId: id }
+      });
+    },
+    detial(id) {
+      this.$router.push({
+        name: "Project_detial",
+        query: { projectId: id }
       });
     }
   }

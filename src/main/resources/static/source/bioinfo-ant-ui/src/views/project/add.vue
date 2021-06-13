@@ -16,18 +16,17 @@
         "
       />
     </a-form-model-item>
-    <!-- <a-form-model-item label="项目名称" prop="region">
-      <a-select v-model="form.region" placeholder="please select your zone">
-        <a-select-option value="shanghai">
-          Zone one
-        </a-select-option>
-        <a-select-option value="beijing">
-          Zone two
+    <a-form-model-item label="项目状态" prop="projectStatus">
+      <a-select v-model="form.projectStatus" placeholder="please select your zone">
+
+        <a-select-option :value="item.key" v-for="item in projectStatuses" :key="item.key">
+         {{item.value}}
         </a-select-option>
       </a-select>
-    </a-form-model-item>-->
+    </a-form-model-item>
     <a-form-model-item label="项目截止日期" required prop="deadline">
       <a-date-picker
+        format="YYYY-MM-DD HH:mm:ss"
         v-model="form.deadline"
         show-time
         type="date"
@@ -73,16 +72,20 @@
 </template>
 <script>
 import ProjectAPi from "@/api/Project.js";
+import ENUMApi from "@/api/ENUM.js";
 export default {
   data() {
     return {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       other: "",
+      projectStatuses:[],
+      value:null,
       form: {
         name: "",
         // region: undefined,
-        // date1: undefined,
+        deadline: undefined,
+        projectStatus:null,
         // delivery: false,
         // type: [],
         // resource: '',
@@ -93,7 +96,7 @@ export default {
           { required: true, message: "请输入项目名称", trigger: "blur" }
           //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
         ],
-        // region: [{ required: true, message: 'Please select Activity zone', trigger: 'change' }],
+        projectStatus: [{ required: true, message: 'Please select Activity zone', trigger: 'change' }],
         deadline: [
           { required: true, message: "请选择一个截止日期", trigger: "change" }
         ],
@@ -108,22 +111,30 @@ export default {
         // resource: [
         //   { required: true, message: 'Please select activity resource', trigger: 'change' },
         // ],
-        description: [{ required: true, message: "请输入项目描述", trigger: "blur" }]
+        description: [
+          { required: true, message: "请输入项目描述", trigger: "blur" }
+        ]
       }
     };
+  },created(){
+      ENUMApi.projectStatuses().then(resp=>{
+          this.projectStatuses = resp.data.data
+          console.log(resp.data.data)
+      })
   },
   methods: {
     onSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-             console.log(this.form);
-          ProjectAPi.add(this.form).then(resp=>{
-              this.$notification["success"]({
+          this.form.deadline = this.form.deadline.format("YYYY-MM-DD HH:mm:ss");
+        //   console.log(this.form);
+
+          ProjectAPi.add(this.form).then(resp => {
+            this.$notification["success"]({
               message: "项目创建成功!" + resp.data.message
             });
             this.$router.push("/project/list");
           });
-        
         } else {
           console.log("error submit!!");
           return false;
