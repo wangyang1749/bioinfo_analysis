@@ -1,22 +1,14 @@
-package com.wangyang.bioinfo.pojo;
+package com.wangyang.bioinfo.pojo.param;
 
 import com.wangyang.bioinfo.pojo.enums.AttachmentType;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
+import lombok.Data;
 
 /**
  * @author wangyang
- * @date 2021/6/13
+ * @date 2021/6/14
  */
-@Getter
-@Setter
-@Entity(name = "t_attachment")
-public class Attachment extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+@Data
+public class AttachmentParam {
     private String name;
     private String path;
     private String fileKey;
@@ -29,4 +21,5 @@ public class Attachment extends BaseEntity {
     private String thumbPath;
     private Integer projectId;
     private Integer userId;
+//    private Integer userId;
 }

@@ -6,6 +6,7 @@ import com.wangyang.bioinfo.util.BioinfoException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.util.LinkedList;
  * @author wangyang
  * @date 2021/6/13
  */
+@Component
 public class FileHandlers {
     private final Collection<FileHandler> fileHandlers = new LinkedList<>();
     public FileHandlers(ApplicationContext applicationContext) {

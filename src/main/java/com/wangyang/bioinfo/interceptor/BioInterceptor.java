@@ -39,6 +39,10 @@ public class BioInterceptor implements HandlerInterceptor {
                 throw new BioinfoException("请在服务器配置Authorization_SDK Options");
             }
             if(authorizationSdkDB.get().equals(authorization_sdk)){
+                User user = new User();
+                user.setId(-1);
+                user.setUsername("admin");
+                request.setAttribute("user",user);
                 return true;
             }
         }
