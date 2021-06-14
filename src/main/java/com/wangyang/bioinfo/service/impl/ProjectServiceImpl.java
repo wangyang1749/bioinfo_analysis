@@ -74,7 +74,7 @@ public class ProjectServiceImpl implements IProjectService {
     @Override
     public Project updateProject(int id,Project updateProject) {
         Project project = findProjectById(id);
-        BeanUtils.copyProperties(updateProject,project,"id","userId");
+        BeanUtils.copyProperties(updateProject,project,"id","userId","createDate");
         projectRepository.save(project);
         return project;
     }
