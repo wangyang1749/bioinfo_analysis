@@ -3,6 +3,7 @@ package com.wangyang.bioinfo.interceptor;
 import com.wangyang.bioinfo.pojo.User;
 import com.wangyang.bioinfo.util.AuthorizationException;
 import com.wangyang.bioinfo.util.BioinfoException;
+import com.wangyang.bioinfo.util.StringCacheStore;
 import com.wangyang.bioinfo.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 /**
  * @author wangyang
@@ -29,6 +31,17 @@ public class BioInterceptor implements HandlerInterceptor {
 //        if(uri.equals("/api/user/login")){
 //            return true;
 //        }
+        String authorization_sdk = request.getHeader("Authorization_SDK");
+
+        if(authorization_sdk!=null){
+            Optional<String> authorizationSdkDB = StringCacheStore.get("Authorization_SDK");
+            if(!authorizationSdkDB.isPresent()){
+                throw new BioinfoException("请在服务器配置Authorization_SDK Options");
+            }
+            if(authorizationSdkDB.get().equals(authorization_sdk)){
+                return true;
+            }
+        }
         if(uri.startsWith("/api")){
             System.out.println("需要授权!");
             String token = getToken(request, "Authorization");

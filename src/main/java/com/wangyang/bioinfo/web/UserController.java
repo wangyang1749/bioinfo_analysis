@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
@@ -35,6 +37,11 @@ public class UserController {
     @GetMapping
     public Page<User> page(@PageableDefault(sort = {"id"},direction = DESC) Pageable pageable){
         return userService.pageUser(pageable);
+    }
+
+    @GetMapping("/listAll")
+    public List<UserDto> listAll(){
+        return userService.listAll();
     }
 
 

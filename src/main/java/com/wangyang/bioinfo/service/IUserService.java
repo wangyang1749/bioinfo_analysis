@@ -17,6 +17,7 @@ public interface IUserService {
     User delUser(int id);
     User findUserById(int id);
     List<User> findAllById(Collection<Integer> id);
+    List<UserDto> listAll();
     Page<User> pageUser(Pageable pageable);
     User updateUser(User user);
     User login(String username,String password);

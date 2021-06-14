@@ -21,6 +21,7 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author wangyang
@@ -51,6 +52,17 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<User> findAllById(Collection<Integer> ids) {
         return userRepository.findAllById(ids);
+    }
+
+    @Override
+    public List<UserDto> listAll() {
+        List<UserDto> userDtos = userRepository.findAll().stream().map(user -> {
+                    UserDto userDto = new UserDto();
+                    BeanUtils.copyProperties(user,userDto);
+                    return userDto;
+                }
+        ).collect(Collectors.toList());
+        return userDtos;
     }
 
     @Override

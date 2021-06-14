@@ -5,6 +5,8 @@ import com.wangyang.bioinfo.pojo.User;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author wangyang
@@ -22,4 +24,8 @@ public class ProjectVo {
     private ProjectStatus projectStatus;
     private Integer userId;
     private User user;
+    private String originalContent;
+    private String formatContent;
+    private List<User> chargePerson;
+    private Set<Integer> userIds;
 }

@@ -3,22 +3,23 @@ package com.wangyang.bioinfo.pojo;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * @author wangyang
- * @date 2021/6/13
+ * @date 2021/6/14
+ * 项目负责人的添加
  */
+@Entity(name = "t_project_user")
 @Getter
 @Setter
-@Entity(name = "t_comment")
-public class Comment extends BaseEntity {
+public class ProjectUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int userId;
     private int projectId;
-    @Column(columnDefinition = "longtext not null")
-    private String content;
-
 }

@@ -30,6 +30,10 @@ public class Project extends BaseEntity{
     ProjectStatus projectStatus;
 
     private Integer userId;
+    @Column(columnDefinition = "longtext")
+    private String originalContent;
+    @Column(columnDefinition = "longtext")
+    private String formatContent;
 
 //    @ManyToMany(cascade = {CascadeType.MERGE},fetch = FetchType.LAZY)
 //    @JoinTable(name = "t_user_project",joinColumns = @JoinColumn(name = "projectId"),

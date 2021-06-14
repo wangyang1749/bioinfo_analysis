@@ -26,8 +26,11 @@ public class User {
     private String email;
     private int gender;
 
+    public String getPassword() {
+        return "";
+    }
 
-//    @ManyToMany(cascade = {CascadeType.MERGE},fetch = FetchType.LAZY)
+    //    @ManyToMany(cascade = {CascadeType.MERGE},fetch = FetchType.LAZY)
 //    @JoinTable(name = "t_user_role",joinColumns = @JoinColumn(name = "userId"),
 //    inverseJoinColumns = @JoinColumn(name = "roleId"))
 //    @JsonManagedReference

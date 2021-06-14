@@ -1,11 +1,13 @@
 package com.wangyang.bioinfo.pojo.param;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.wangyang.bioinfo.pojo.User;
 import com.wangyang.bioinfo.pojo.enums.ProjectStatus;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author wangyang
@@ -26,5 +28,6 @@ public class ProjectParam {
 //    @JsonDeserialize(using = JsonDateDeserializer.class)
     private Date deadline;
     private String jupyterUrl;
-    ProjectStatus projectStatus;
+    private Set<Integer> userIds;
+    private  ProjectStatus projectStatus;
 }

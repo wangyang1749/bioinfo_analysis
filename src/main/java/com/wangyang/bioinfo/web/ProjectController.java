@@ -2,7 +2,9 @@ package com.wangyang.bioinfo.web;
 
 import com.wangyang.bioinfo.pojo.Project;
 import com.wangyang.bioinfo.pojo.User;
+import com.wangyang.bioinfo.pojo.param.ProjectContentParam;
 import com.wangyang.bioinfo.pojo.param.ProjectParam;
+import com.wangyang.bioinfo.pojo.param.ProjectSDK;
 import com.wangyang.bioinfo.pojo.vo.ProjectListVo;
 import com.wangyang.bioinfo.pojo.vo.ProjectVo;
 import com.wangyang.bioinfo.service.IProjectService;
@@ -20,6 +22,8 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
+
 /**
  * @author wangyang
  * @date 2021/6/12
@@ -43,14 +47,29 @@ public class ProjectController {
         BeanUtils.copyProperties(projectParam,project);
         User user = (User) request.getAttribute("user");
         project.setUserId(user.getId());
-        project = projectService.addProject(project);
+        project = projectService.addProject(project,projectParam.getUserIds());
         return project;
     }
     @PostMapping("/update/{id}")
     public Project update(@PathVariable("id")int id, @Valid @RequestBody ProjectParam projectParam, HttpServletRequest request){
         Project project = new Project();
         BeanUtils.copyProperties(projectParam,project);
-        project = projectService.updateProject(id,project);
+        User user = (User) request.getAttribute("user");
+        project = projectService.updateProject(id,project,user,projectParam.getUserIds());
+        return project;
+    }
+
+    @PostMapping("/updateSDK/{id}")
+    public Project updateSDK(@PathVariable("id")int id, @Valid @RequestBody ProjectSDK projectSDK){
+        Project project = projectService.updateProject(id,projectSDK);
+        return project;
+    }
+
+
+    @PostMapping("/updateContent/{id}")
+    public Project updateContent(@PathVariable("id")int id, @Valid @RequestBody ProjectContentParam projectContentParam, HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
+        Project project = projectService.updateProject(id,projectContentParam.getContent(),user);
         return project;
     }
 
@@ -59,6 +78,13 @@ public class ProjectController {
         Project project = projectService.findProjectById(id);
         return projectService.convertProjectVo(project);
     }
+
+    @GetMapping("/find")
+    public  List<Project> findProjectByName(@RequestParam("name")String name){
+        List<Project> project = projectService.findProjectByName(name);
+        return project;
+    }
+
     @GetMapping("/del/{id}")
     public Project delProject(@PathVariable("id")int id,HttpServletRequest request){
         User user = (User) request.getAttribute("user");
