@@ -1,11 +1,13 @@
 package com.wangyang.bioinfo.web;
 
+import com.wangyang.bioinfo.pojo.LoginUser;
 import com.wangyang.bioinfo.pojo.User;
 import com.wangyang.bioinfo.pojo.UserParam;
 import com.wangyang.bioinfo.pojo.dto.UserDto;
 import com.wangyang.bioinfo.service.IUserService;
 import com.wangyang.bioinfo.util.Token;
 import com.wangyang.bioinfo.util.TokenProvider;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,10 +40,12 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody UserParam inputUser){
+    public LoginUser login(@RequestBody UserParam inputUser){
         User user = userService.login(inputUser.getUsername(), inputUser.getPassword());
-
+        LoginUser loginUser = new LoginUser();
+        BeanUtils.copyProperties(user,loginUser);
         Token token = tokenProvider.generateToken(user);
-        return new ResponseEntity<>(token.getToken(), HttpStatus.OK);
+        loginUser.setToken(token.getToken());
+        return loginUser;
     }
 }
