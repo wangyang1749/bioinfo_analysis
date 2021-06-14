@@ -62,6 +62,6 @@ public class ProjectController {
     @GetMapping("/del/{id}")
     public Project delProject(@PathVariable("id")int id,HttpServletRequest request){
         User user = (User) request.getAttribute("user");
-        return projectService.delProject(id,user.getId());
+        return projectService.delProject(id,user);
     }
 }

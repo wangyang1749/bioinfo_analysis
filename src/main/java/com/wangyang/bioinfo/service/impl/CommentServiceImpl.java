@@ -8,6 +8,7 @@ import com.wangyang.bioinfo.pojo.vo.CommentVo;
 import com.wangyang.bioinfo.pojo.vo.ProjectListVo;
 import com.wangyang.bioinfo.repository.CommentRepository;
 import com.wangyang.bioinfo.service.ICommentService;
+import com.wangyang.bioinfo.service.IProjectService;
 import com.wangyang.bioinfo.service.IUserService;
 import com.wangyang.bioinfo.util.BioinfoException;
 import com.wangyang.bioinfo.util.ServiceUtil;
@@ -35,6 +36,9 @@ public class CommentServiceImpl implements ICommentService {
     CommentRepository commentRepository;
 
     @Autowired
+    IProjectService projectService;
+
+    @Autowired
     IUserService userService;
 
     @Override
@@ -43,13 +47,30 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public Comment delComment(int id,int userId) {
+    public Comment delComment(int id,User user) {
         Comment comment = findCommentById(id);
-        if(comment.getUserId()!=userId){
-            throw new BioinfoException("您不是这条评论的创建者！");
+        Project project = projectService.findProjectById(comment.getProjectId());
+
+        if(comment.getUserId()!=user.getId() && project.getUserId()!=user.getId()&& !user.getUsername().equals("admin")){
+            throw new BioinfoException("您不是这条评论的创建者或者该项目创建者！");
         }
+
         commentRepository.deleteById(id);
         return comment;
+    }
+
+    @Override
+    public   List<Comment> delALLById(Collection<Integer> id) {
+        List<Comment> comments = findAllById(id);
+        commentRepository.deleteAll(comments);
+        return comments;
+    }
+
+    @Override
+    public List<Comment> delCommentByProjectId(int projectId) {
+        List<Comment> comments = findCommentByProjectId(projectId);
+        commentRepository.deleteAll(comments);
+        return comments;
     }
 
     @Override
@@ -63,8 +84,19 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
+    public List<Comment> findCommentByProjectId(int projectId) {
+        List<Comment> comments = commentRepository.findAll(new Specification<Comment>() {
+            @Override
+            public Predicate toPredicate(Root<Comment> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaQuery.where(criteriaBuilder.equal(root.get("projectId"), projectId)).getRestriction();
+            }
+        });
+        return comments;
+    }
+
+    @Override
     public List<Comment> findAllById(Collection<Integer> id) {
-        return null;
+        return commentRepository.findAllById(id);
     }
 
     @Override

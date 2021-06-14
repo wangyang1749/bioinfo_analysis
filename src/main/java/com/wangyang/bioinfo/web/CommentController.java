@@ -55,7 +55,7 @@ public class CommentController {
     @GetMapping("/del/{id}")
     public Comment del(@PathVariable("id") int id, HttpServletRequest request){
         User user = (User) request.getAttribute("user");
-        Comment comment = commentService.delComment(id,user.getId());
+        Comment comment = commentService.delComment(id,user);
         return comment;
     }
 

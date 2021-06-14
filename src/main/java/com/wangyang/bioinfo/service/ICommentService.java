@@ -18,8 +18,12 @@ import java.util.List;
  */
 public interface ICommentService {
     Comment addComment(Comment comment);
-    Comment delComment(int id,int userId);
+    Comment delComment(int id,User user);
+    List<Comment> delALLById(Collection<Integer> id);
+    List<Comment> delCommentByProjectId(int projectId);
+
     Comment findCommentById(int id);
+    List<Comment> findCommentByProjectId(int id);
     List<Comment> findAllById(Collection<Integer> id);
     Page<Comment> pageComment(Pageable pageable);
     Comment updateComment(Comment comment);

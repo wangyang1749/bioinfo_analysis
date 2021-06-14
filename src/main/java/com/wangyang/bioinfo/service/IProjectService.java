@@ -2,6 +2,7 @@ package com.wangyang.bioinfo.service;
 
 
 import com.wangyang.bioinfo.pojo.Project;
+import com.wangyang.bioinfo.pojo.User;
 import com.wangyang.bioinfo.pojo.vo.ProjectListVo;
 import com.wangyang.bioinfo.pojo.vo.ProjectVo;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface IProjectService {
     Project addProject(Project inputProject);
-    Project delProject(int id,int userId);
+    Project delProject(int id, User user);
     Project findProjectById(int id);
     Page<Project> pageProject(Pageable pageable);
     Project updateProject(int id,Project project);

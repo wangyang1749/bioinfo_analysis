@@ -5,6 +5,7 @@ import com.wangyang.bioinfo.pojo.User;
 import com.wangyang.bioinfo.pojo.vo.ProjectListVo;
 import com.wangyang.bioinfo.pojo.vo.ProjectVo;
 import com.wangyang.bioinfo.repository.ProjectRepository;
+import com.wangyang.bioinfo.service.ICommentService;
 import com.wangyang.bioinfo.service.IProjectService;
 import com.wangyang.bioinfo.service.IUserService;
 import com.wangyang.bioinfo.util.BioinfoException;
@@ -33,6 +34,9 @@ public class ProjectServiceImpl implements IProjectService {
     @Autowired
     IUserService userService;
 
+    @Autowired
+    ICommentService commentService;
+
     @Override
     public Project addProject(Project inputProject) {
         Project project = projectRepository.save(inputProject);
@@ -40,11 +44,13 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public Project delProject(int id,int userId) {
+    public Project delProject(int id, User user) {
         Project project = findProjectById(id);
-        if(project.getUserId()!=userId){
+        if(project.getUserId()!=user.getId()&&!user.getUsername().equals("admin")){
             throw new BioinfoException("该项目不是由您创建不能删除！");
         }
+        // 删除评论
+        commentService.delCommentByProjectId(project.getId());
         projectRepository.deleteById(id);
         return project;
     }
