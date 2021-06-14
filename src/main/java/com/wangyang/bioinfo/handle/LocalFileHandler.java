@@ -36,7 +36,7 @@ public class LocalFileHandler implements FileHandler {
         String  originalFilename = file.getOriginalFilename();
 
         String subFilePath = "upload/"+"/"+System.currentTimeMillis()+"-"+originalFilename;
-        uploadResult.setFilePath(originalFilename);
+        uploadResult.setFilePath(subFilePath);
         uploadResult.setFilename(originalFilename);
         Path uploadPath = Paths.get(workDir, subFilePath);
         try {
