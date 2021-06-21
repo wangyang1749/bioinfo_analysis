@@ -45,8 +45,12 @@ public class AttachmentServiceImpl implements IAttachmentService {
 
     @Override
     public Attachment addAttachment(AttachmentParam attachmentParam) {
-        Attachment attachment =new Attachment();
+        Attachment attachment = findAttachmentByName(attachmentParam.getName());
+        if(attachment==null){
+            attachment =new Attachment();
+        }
         BeanUtils.copyProperties(attachmentParam,attachment);
+
         attachment = attachmentRepository.save(attachment);
         return attachment;
     }
@@ -69,6 +73,20 @@ public class AttachmentServiceImpl implements IAttachmentService {
             throw new BioinfoException("操作的对象不存在！");
         }
         return attachmentOptional.get();
+    }
+
+    @Override
+    public Attachment findAttachmentByName(String name) {
+        List<Attachment> attachments = attachmentRepository.findAll(new Specification<Attachment>() {
+            @Override
+            public Predicate toPredicate(Root<Attachment> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaQuery.where(criteriaBuilder.equal(root.get("name"),name)).getRestriction();
+            }
+        });
+        if(attachments.size()==0){
+            return null;
+        }
+        return attachments.get(0);
     }
 
     @Override

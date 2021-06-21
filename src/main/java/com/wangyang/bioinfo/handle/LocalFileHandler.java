@@ -2,6 +2,7 @@ package com.wangyang.bioinfo.handle;
 
 import com.wangyang.bioinfo.pojo.enums.AttachmentType;
 import com.wangyang.bioinfo.pojo.support.UploadResult;
+import com.wangyang.bioinfo.util.FilenameUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -34,10 +35,13 @@ public class LocalFileHandler implements FileHandler {
     public UploadResult upload(MultipartFile file) {
         UploadResult uploadResult = new UploadResult();
         String  originalFilename = file.getOriginalFilename();
+        String extension = FilenameUtils.getExtension(originalFilename);
+        String basename = FilenameUtils.getBasename(originalFilename);
 
-        String subFilePath = "/upload"+"/"+System.currentTimeMillis()+"-"+originalFilename;
+        String subFilePath = "/upload"+"/"+FilenameUtils.randomName()+"."+extension;
         uploadResult.setFilePath(subFilePath);
-        uploadResult.setFilename(originalFilename);
+        uploadResult.setFilename(basename);
+
         Path uploadPath = Paths.get(workDir, subFilePath);
         try {
             Files.createDirectories(uploadPath.getParent());

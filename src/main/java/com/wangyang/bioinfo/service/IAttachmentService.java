@@ -19,6 +19,7 @@ public interface IAttachmentService {
     Attachment addAttachment(AttachmentParam attachment);
     Attachment delAttachment(int id, User user);
     Attachment findAttachmentById(int id);
+    Attachment findAttachmentByName(String name);
     List<Attachment> findAllById(Collection<Integer> id);
     Page<Attachment> pageAttachment(Pageable pageable);
     Attachment updateAttachment(Attachment attachment);
