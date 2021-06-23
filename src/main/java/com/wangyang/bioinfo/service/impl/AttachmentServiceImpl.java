@@ -45,7 +45,8 @@ public class AttachmentServiceImpl implements IAttachmentService {
 
     @Override
     public Attachment addAttachment(AttachmentParam attachmentParam) {
-        Attachment attachment = findAttachmentByName(attachmentParam.getName());
+        Attachment attachment = findAttachmentByPathOrName(attachmentParam.getName(),attachmentParam.getPath());
+
         if(attachment==null){
             attachment =new Attachment();
         }
@@ -81,6 +82,21 @@ public class AttachmentServiceImpl implements IAttachmentService {
             @Override
             public Predicate toPredicate(Root<Attachment> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 return criteriaQuery.where(criteriaBuilder.equal(root.get("name"),name)).getRestriction();
+            }
+        });
+        if(attachments.size()==0){
+            return null;
+        }
+        return attachments.get(0);
+    }
+
+    @Override
+    public Attachment findAttachmentByPathOrName(String name,String path) {
+        List<Attachment> attachments = attachmentRepository.findAll(new Specification<Attachment>() {
+            @Override
+            public Predicate toPredicate(Root<Attachment> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.or(criteriaBuilder.equal(root.get("name"), name), criteriaBuilder.equal(root.get("path"), path));
+                return criteriaQuery.where(predicate).getRestriction();
             }
         });
         if(attachments.size()==0){
